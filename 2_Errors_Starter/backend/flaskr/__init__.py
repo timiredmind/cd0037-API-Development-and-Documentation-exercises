@@ -129,7 +129,29 @@ def create_app(test_config=None):
 
     # @TODO: Review the above code for route handlers.
     #        Pay special attention to the status codes used in the aborts since those are relevant for this task!
+    @app.errorhandler(404)
+    def resource_not_found(e):
+        return jsonify({
+            "success": False,
+            "message": "Resource not found",
+            "error": 404
+        }), 404
 
+    @app.errorhandler(400)
+    def bad_request_error_handler(e):
+        return jsonify({
+            "success": False,
+            "message": "Bad Request",
+            "error": 400
+        }), 400
+
+    @app.errorhandler(422)
+    def unprocessable_entity(e):
+        return jsonify({
+            "success": False,
+            "message": "Unprocessable Entity",
+            "error": 422
+        })
     # @TODO: Write error handler decorators to handle AT LEAST status codes 400, 404, and 422.
 
     # TEST: Practice writing curl requests. Write some requests that you know will error in expected ways.
